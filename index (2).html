@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Axon AI — Your Business, On Autopilot</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0a1628;
+    --blue: #185FA5;
+    --blue-light: #85B7EB;
+    --teal: #1D9E75;
+    --teal-light: #9FE1CB;
+    --white: #f5f7fa;
+    --gray: #8892a4;
+    --card-bg: #0f1e35;
+    --border: rgba(133,183,235,0.15);
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--navy);
+    color: var(--white);
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.25rem 5%;
+    background: rgba(10,22,40,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo {
+    display: flex; align-items: center; gap: 10px;
+    font-family: 'Syne', sans-serif; font-size: 1.3rem; font-weight: 800;
+    color: var(--white); text-decoration: none;
+  }
+  .logo-mark {
+    width: 36px; height: 36px;
+  }
+  .nav-links { display: flex; align-items: center; gap: 2rem; }
+  .nav-links a {
+    color: var(--gray); text-decoration: none; font-size: 0.9rem;
+    font-weight: 400; transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--white); }
+  .nav-cta {
+    background: var(--blue); color: var(--white) !important;
+    padding: 0.55rem 1.25rem; border-radius: 6px;
+    font-weight: 500 !important; font-size: 0.875rem !important;
+    transition: background 0.2s !important;
+  }
+  .nav-cta:hover { background: #0C447C !important; }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center;
+    padding: 8rem 5% 5rem;
+    position: relative; overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute; inset: 0; z-index: 0;
+    background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(24,95,165,0.18) 0%, transparent 70%),
+                radial-gradient(ellipse 40% 40% at 80% 80%, rgba(29,158,117,0.1) 0%, transparent 60%);
+  }
+  .hero-grid {
+    position: absolute; inset: 0; z-index: 0; opacity: 0.04;
+    background-image: linear-gradient(var(--blue-light) 1px, transparent 1px),
+                      linear-gradient(90deg, var(--blue-light) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(24,95,165,0.15); border: 1px solid rgba(133,183,235,0.3);
+    padding: 0.4rem 1rem; border-radius: 100px; margin-bottom: 2rem;
+    font-size: 0.8rem; color: var(--blue-light); font-weight: 500;
+    position: relative; z-index: 1;
+    animation: fadeUp 0.6s ease both;
+  }
+  .badge-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--teal); }
+  .hero h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(2.8rem, 6vw, 5rem);
+    font-weight: 800; line-height: 1.08; letter-spacing: -0.02em;
+    max-width: 800px; margin-bottom: 1.5rem;
+    position: relative; z-index: 1;
+    animation: fadeUp 0.6s 0.1s ease both;
+  }
+  .hero h1 span { color: var(--blue-light); }
+  .hero p {
+    font-size: 1.15rem; color: var(--gray); max-width: 560px;
+    line-height: 1.7; margin-bottom: 2.5rem;
+    position: relative; z-index: 1;
+    animation: fadeUp 0.6s 0.2s ease both;
+  }
+  .hero-btns {
+    display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center;
+    position: relative; z-index: 1;
+    animation: fadeUp 0.6s 0.3s ease both;
+  }
+  .btn-primary {
+    background: var(--blue); color: var(--white);
+    padding: 0.875rem 2rem; border-radius: 8px;
+    font-size: 0.95rem; font-weight: 500;
+    text-decoration: none; transition: all 0.2s;
+    border: 1px solid var(--blue);
+  }
+  .btn-primary:hover { background: #0C447C; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(24,95,165,0.35); }
+  .btn-secondary {
+    background: transparent; color: var(--white);
+    padding: 0.875rem 2rem; border-radius: 8px;
+    font-size: 0.95rem; font-weight: 400;
+    text-decoration: none; transition: all 0.2s;
+    border: 1px solid var(--border);
+  }
+  .btn-secondary:hover { border-color: var(--blue-light); background: rgba(133,183,235,0.05); }
+
+  /* STATS */
+  .stats {
+    display: flex; justify-content: center; gap: 3rem; flex-wrap: wrap;
+    padding: 3rem 5%; border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    animation: fadeUp 0.6s 0.4s ease both;
+    position: relative; z-index: 1;
+  }
+  .stat { text-align: center; }
+  .stat-num {
+    font-family: 'Syne', sans-serif; font-size: 2rem; font-weight: 800;
+    color: var(--white); display: block;
+  }
+  .stat-label { font-size: 0.8rem; color: var(--gray); margin-top: 2px; }
+
+  /* SECTION STYLES */
+  section { padding: 6rem 5%; }
+  .section-label {
+    font-size: 0.75rem; font-weight: 500; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--teal); margin-bottom: 1rem;
+  }
+  .section-title {
+    font-family: 'Syne', sans-serif; font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+    font-weight: 700; line-height: 1.15; margin-bottom: 1rem;
+  }
+  .section-sub { font-size: 1rem; color: var(--gray); line-height: 1.7; max-width: 560px; }
+
+  /* HOW IT WORKS */
+  .how { background: var(--card-bg); }
+  .steps-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.5rem; margin-top: 3rem;
+  }
+  .step-card {
+    background: rgba(24,95,165,0.06); border: 1px solid var(--border);
+    border-radius: 12px; padding: 1.75rem;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .step-card:hover { border-color: rgba(133,183,235,0.4); transform: translateY(-4px); }
+  .step-num {
+    width: 40px; height: 40px; border-radius: 50%;
+    background: rgba(24,95,165,0.2); border: 1px solid rgba(133,183,235,0.3);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Syne', sans-serif; font-size: 0.9rem; font-weight: 700;
+    color: var(--blue-light); margin-bottom: 1.25rem;
+  }
+  .step-card h3 { font-family: 'Syne', sans-serif; font-size: 1rem; font-weight: 600; margin-bottom: 0.5rem; }
+  .step-card p { font-size: 0.875rem; color: var(--gray); line-height: 1.6; }
+
+  /* NICHES */
+  .niches-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem; margin-top: 3rem;
+  }
+  .niche-card {
+    background: var(--card-bg); border: 1px solid var(--border);
+    border-radius: 16px; padding: 2rem; position: relative; overflow: hidden;
+    transition: border-color 0.25s, transform 0.25s;
+    cursor: pointer;
+  }
+  .niche-card:hover { border-color: rgba(133,183,235,0.5); transform: translateY(-6px); }
+  .niche-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+    background: linear-gradient(90deg, var(--blue), var(--teal));
+    opacity: 0; transition: opacity 0.25s;
+  }
+  .niche-card:hover::before { opacity: 1; }
+  .niche-icon {
+    width: 48px; height: 48px; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.5rem; margin-bottom: 1.25rem;
+  }
+  .niche-card h3 { font-family: 'Syne', sans-serif; font-size: 1.1rem; font-weight: 700; margin-bottom: 0.75rem; }
+  .niche-card .pain {
+    font-size: 0.875rem; color: var(--gray); margin-bottom: 1.25rem; line-height: 1.6;
+  }
+  .niche-features { list-style: none; }
+  .niche-features li {
+    font-size: 0.825rem; color: var(--white); padding: 0.4rem 0;
+    border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 8px;
+  }
+  .niche-features li:last-child { border-bottom: none; }
+  .check { color: var(--teal); font-size: 0.9rem; }
+  .niche-cta {
+    display: inline-flex; align-items: center; gap: 6px;
+    margin-top: 1.25rem; font-size: 0.825rem; color: var(--blue-light);
+    text-decoration: none; font-weight: 500; transition: gap 0.2s;
+  }
+  .niche-cta:hover { gap: 10px; }
+
+  /* DEMO SECTION */
+  .demo-section { background: var(--card-bg); }
+  .demo-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 3rem;
+  }
+  @media (max-width: 768px) { .demo-grid { grid-template-columns: 1fr; } }
+  .demo-card {
+    background: rgba(24,95,165,0.05); border: 1px solid var(--border);
+    border-radius: 16px; padding: 2rem; position: relative; overflow: hidden;
+  }
+  .demo-tag {
+    display: inline-block; font-size: 0.7rem; font-weight: 500;
+    padding: 3px 10px; border-radius: 100px; margin-bottom: 1rem;
+    background: rgba(29,158,117,0.15); color: var(--teal-light);
+    border: 1px solid rgba(29,158,117,0.3);
+  }
+  .demo-card h3 { font-family: 'Syne', sans-serif; font-size: 1.1rem; font-weight: 600; margin-bottom: 0.75rem; }
+  .demo-card p { font-size: 0.875rem; color: var(--gray); line-height: 1.6; margin-bottom: 1.5rem; }
+  .demo-visual {
+    background: rgba(10,22,40,0.6); border: 1px solid var(--border);
+    border-radius: 10px; padding: 1.25rem; font-size: 0.8rem;
+  }
+  .demo-msg {
+    display: flex; gap: 10px; margin-bottom: 10px; align-items: flex-start;
+  }
+  .demo-avatar {
+    width: 28px; height: 28px; border-radius: 50%; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.65rem; font-weight: 600;
+  }
+  .demo-bubble {
+    background: rgba(24,95,165,0.2); border: 1px solid rgba(133,183,235,0.2);
+    border-radius: 0 8px 8px 8px; padding: 8px 12px; color: var(--white);
+    font-size: 0.8rem; line-height: 1.5; max-width: 85%;
+  }
+  .demo-bubble.reply {
+    background: rgba(29,158,117,0.15); border-color: rgba(29,158,117,0.2);
+    border-radius: 8px 0 8px 8px; margin-left: auto;
+  }
+  .typing { display: flex; gap: 4px; padding: 8px 12px; }
+  .typing span {
+    width: 6px; height: 6px; border-radius: 50%; background: var(--gray);
+    animation: bounce 1s infinite;
+  }
+  .typing span:nth-child(2) { animation-delay: 0.15s; }
+  .typing span:nth-child(3) { animation-delay: 0.3s; }
+
+  /* RESULTS */
+  .results-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem; margin-top: 3rem;
+  }
+  .result-card {
+    background: var(--card-bg); border: 1px solid var(--border);
+    border-radius: 12px; padding: 1.75rem; text-align: center;
+  }
+  .result-num {
+    font-family: 'Syne', sans-serif; font-size: 2.5rem; font-weight: 800;
+    background: linear-gradient(135deg, var(--blue-light), var(--teal-light));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text; display: block; margin-bottom: 0.5rem;
+  }
+  .result-label { font-size: 0.85rem; color: var(--gray); line-height: 1.5; }
+
+  /* PROCESS */
+  .process-list { margin-top: 3rem; max-width: 700px; }
+  .process-item {
+    display: flex; gap: 1.5rem; padding: 1.5rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .process-item:last-child { border-bottom: none; }
+  .process-icon {
+    width: 44px; height: 44px; border-radius: 10px; flex-shrink: 0;
+    background: rgba(24,95,165,0.12); border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center; font-size: 1.2rem;
+  }
+  .process-item h3 { font-family: 'Syne', sans-serif; font-size: 0.95rem; font-weight: 600; margin-bottom: 0.35rem; }
+  .process-item p { font-size: 0.85rem; color: var(--gray); line-height: 1.6; }
+
+  /* CTA SECTION */
+  .cta-section {
+    text-align: center; padding: 7rem 5%;
+    background: radial-gradient(ellipse 70% 70% at 50% 50%, rgba(24,95,165,0.12) 0%, transparent 70%);
+    border-top: 1px solid var(--border);
+  }
+  .cta-section h2 {
+    font-family: 'Syne', sans-serif; font-size: clamp(2rem, 4vw, 3.5rem);
+    font-weight: 800; margin-bottom: 1rem; line-height: 1.1;
+  }
+  .cta-section p { color: var(--gray); max-width: 500px; margin: 0 auto 2.5rem; line-height: 1.7; }
+  .cta-note { font-size: 0.8rem; color: var(--gray); margin-top: 1rem; }
+
+  /* FOOTER */
+  footer {
+    padding: 2.5rem 5%; border-top: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;
+  }
+  .footer-logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.1rem; }
+  .footer-right { font-size: 0.8rem; color: var(--gray); }
+  .footer-right a { color: var(--blue-light); text-decoration: none; }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes bounce {
+    0%, 60%, 100% { transform: translateY(0); }
+    30% { transform: translateY(-5px); }
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+  }
+  .fade-in { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
+  .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+  /* MOBILE */
+  @media (max-width: 640px) {
+    .nav-links { display: none; }
+    .stats { gap: 1.5rem; }
+    .demo-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">
+    <svg class="logo-mark" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="6" cy="24" r="5" fill="#185FA5"/>
+      <circle cx="18" cy="8" r="4" fill="#85B7EB"/>
+      <circle cx="30" cy="24" r="5" fill="#0C447C"/>
+      <line x1="11" y1="22" x2="14.5" y2="11" stroke="#185FA5" stroke-width="2" stroke-linecap="round"/>
+      <line x1="21.5" y1="11" x2="25" y2="22" stroke="#0C447C" stroke-width="2" stroke-linecap="round"/>
+    </svg>
+    AXON AI
+  </a>
+  <div class="nav-links">
+    <a href="#how">How it works</a>
+    <a href="#niches">Industries</a>
+    <a href="#demo">See it live</a>
+    <a href="https://cal.com/axon-ai-fplbpl/discovery" target="_blank" class="nav-cta">Book free call</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-badge">
+    <span class="badge-dot"></span>
+    Now taking clients — real estate, salons, clinics & more
+  </div>
+  <h1>Your business,<br><span>on autopilot.</span></h1>
+  <p>We build custom AI agents that generate leads, follow up with clients, and book appointments automatically — 24/7, while you focus on what you do best.</p>
+  <div class="hero-btns">
+    <a href="https://cal.com/axon-ai-fplbpl/discovery" target="_blank" class="btn-primary">Book a free discovery call →</a>
+    <a href="#demo" class="btn-secondary">See it in action</a>
+  </div>
+  <div class="stats">
+    <div class="stat"><span class="stat-num">24/7</span><span class="stat-label">Automated follow-ups</span></div>
+    <div class="stat"><span class="stat-num">100+</span><span class="stat-label">Leads generated daily</span></div>
+    <div class="stat"><span class="stat-num">0</span><span class="stat-label">Extra staff needed</span></div>
+    <div class="stat"><span class="stat-num">30</span><span class="stat-label">Day results guarantee</span></div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how" id="how">
+  <div class="fade-in">
+    <div class="section-label">How it works</div>
+    <h2 class="section-title">From lead to booked client — fully automated</h2>
+    <p class="section-sub">We build the entire system for you. Once live, it runs itself. You just show up to calls.</p>
+  </div>
+  <div class="steps-grid fade-in">
+    <div class="step-card">
+      <div class="step-num">01</div>
+      <h3>We find your leads</h3>
+      <p>AI scans LinkedIn, Google Maps and industry directories to find your ideal clients — qualified and ready.</p>
+    </div>
+    <div class="step-card">
+      <div class="step-num">02</div>
+      <h3>Personalised outreach</h3>
+      <p>Every prospect receives a custom message written specifically for their business — not a generic blast.</p>
+    </div>
+    <div class="step-card">
+      <div class="step-num">03</div>
+      <h3>Automated follow-ups</h3>
+      <p>5-touch follow-up sequences run automatically. No lead falls through the cracks ever again.</p>
+    </div>
+    <div class="step-card">
+      <div class="step-num">04</div>
+      <h3>Calls land in your calendar</h3>
+      <p>Interested prospects click your booking link and schedule themselves. You wake up to booked calls.</p>
+    </div>
+    <div class="step-card">
+      <div class="step-num">05</div>
+      <h3>Proposals written for you</h3>
+      <p>After every call, AI generates a custom proposal in 60 seconds based on your conversation notes.</p>
+    </div>
+    <div class="step-card">
+      <div class="step-num">06</div>
+      <h3>Clients onboard themselves</h3>
+      <p>Contract, intake form, welcome email and kickoff booking — all automated the moment a deal is closed.</p>
+    </div>
+  </div>
+</section>
+
+<!-- NICHES -->
+<section id="niches">
+  <div class="fade-in">
+    <div class="section-label">Industries we serve</div>
+    <h2 class="section-title">Built specifically for your business</h2>
+    <p class="section-sub">We don't sell generic software. Every system is custom-built for your industry and your exact problems.</p>
+  </div>
+  <div class="niches-grid fade-in">
+
+    <div class="niche-card">
+      <div class="niche-icon" style="background:rgba(24,95,165,0.15)">🏠</div>
+      <h3>Real Estate Agents</h3>
+      <p class="pain">Spending hours chasing cold leads and following up manually? Your competitors are closing while you're sending emails.</p>
+      <ul class="niche-features">
+        <li><span class="check">✓</span> Automated lead scraping from Zillow & listings</li>
+        <li><span class="check">✓</span> Personalised buyer/seller outreach sequences</li>
+        <li><span class="check">✓</span> Instant follow-up when someone views your listing</li>
+        <li><span class="check">✓</span> Appointment booking on autopilot</li>
+      </ul>
+      <a href="https://cal.com/axon-ai-fplbpl/discovery" target="_blank" class="niche-cta">See how it works for realtors →</a>
+    </div>
+
+    <div class="niche-card">
+      <div class="niche-icon" style="background:rgba(29,158,117,0.15)">✂️</div>
+      <h3>Hair & Beauty Salons</h3>
+      <p class="pain">Clients not rebooking? Empty slots killing your revenue? You're losing thousands every month to no-shows and silence.</p>
+      <ul class="niche-features">
+        <li><span class="check">✓</span> Automated rebooking reminders via SMS & email</li>
+        <li><span class="check">✓</span> No-show follow-up to recapture lost clients</li>
+        <li><span class="check">✓</span> New client outreach in your local area</li>
+        <li><span class="check">✓</span> Review collection after every appointment</li>
+      </ul>
+      <a href="https://cal.com/axon-ai-fplbpl/discovery" target="_blank" class="niche-cta">See how it works for salons →</a>
+    </div>
+
+    <div class="niche-card">
+      <div class="niche-icon" style="background:rgba(133,183,235,0.15)">🦴</div>
+      <h3>Chiropractors</h3>
+      <p class="pain">Patients drop off after the first visit. You're great at healing — but your follow-up system is broken and costing you.</p>
+      <ul class="niche-features">
+        <li><span class="check">✓</span> Patient reactivation campaigns (win back lost patients)</li>
+        <li><span class="check">✓</span> Automated appointment reminders to cut no-shows</li>
+        <li><span class="check">✓</span> New patient lead generation in your local area</li>
+        <li><span class="check">✓</span> Post-visit follow-up & review requests</li>
+      </ul>
+      <a href="https://cal.com/axon-ai-fplbpl/discovery" target="_blank" class="niche-cta">See how it works for chiropractors →</a>
+    </div>
+
+    <div class="niche-card">
+      <div class="niche-icon" style="background:rgba(24,95,165,0.15)">🦷</div>
+      <h3>Dental Clinics</h3>
+      <p class="pain">Empty chairs are expensive. You rely on word of mouth but the pipeline is inconsistent and unpredictable.</p>
+      <ul class="niche-features">
+        <li><span class="check">✓</span> New patient acquisition on autopilot</li>
+        <li><span class="check">✓</span> 6-month recall reminders sent automatically</li>
+        <li><span class="check">✓</span> Treatment follow-up sequences</li>
+        <li><span class="check">✓</span> Google review generation system</li>
+      </ul>
+      <a href="https://cal.com/axon-ai-fplbpl/discovery" target="_blank" class="niche-cta">See how it works for dentists →</a>
+    </div>
+
+    <div class="niche-card">
+      <div class="niche-icon" style="background:rgba(29,158,117,0.15)">💉</div>
+      <h3>Aesthetic Clinics</h3>
+      <p class="pain">High-value treatments, inconsistent bookings. You need a premium client pipeline that matches the quality of your work.</p>
+      <ul class="niche-features">
+        <li><span class="check">✓</span> Premium client lead generation & qualification</li>
+        <li><span class="check">✓</span> Treatment reminder & upsell sequences</li>
+        <li><span class="check">✓</span> Before/after content marketing automation</li>
+        <li><span class="check">✓</span> VIP client retention system</li>
+      </ul>
+      <a href="https://cal.com/axon-ai-fplbpl/discovery" target="_blank" class="niche-cta">See how it works for aesthetic clinics →</a>
+    </div>
+
+  </div>
+</section>
+
+<!-- DEMO -->
+<section class="demo-section" id="demo">
+  <div class="fade-in">
+    <div class="section-label">See it live</div>
+    <h2 class="section-title">Watch the system work in real time</h2>
+    <p class="section-sub">These are real examples of what your AI system does every day, automatically.</p>
+  </div>
+  <div class="demo-grid fade-in">
+
+    <div class="demo-card">
+      <span class="demo-tag">LIVE DEMO — AI Outreach</span>
+      <h3>Personalised cold email agent</h3>
+      <p>Watch the AI write a custom email for a dental clinic in under 3 seconds — using their name, location, and specific pain points.</p>
+      <div class="demo-visual">
+        <div style="font-size:0.7rem;color:var(--gray);margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid var(--border)">
+          📧 Generating email for: Bright Smile Dental, Chicago
+        </div>
+        <div style="font-size:0.8rem;color:var(--white);line-height:1.7">
+          <div style="color:var(--gray);font-size:0.72rem;margin-bottom:6px">Subject: Quick question about your chairs, Dr. Martinez</div>
+          Hi Dr. Martinez,<br><br>
+          Noticed Bright Smile Dental has 4.8 stars on Google — clearly patients love you. The question is: <em style="color:var(--blue-light)">are enough new patients finding you every month?</em><br><br>
+          We help Chicago dental clinics automate new patient acquisition so chairs stay full without chasing referrals.<br><br>
+          Worth a 30-min call? <span style="color:var(--teal)">cal.com/axon-ai-fplbpl/discovery</span><br><br>
+          — Aiman, Axon AI
+        </div>
+      </div>
+    </div>
+
+    <div class="demo-card">
+      <span class="demo-tag">LIVE DEMO — AI Chat Agent</span>
+      <h3>24/7 booking assistant</h3>
+      <p>Your AI assistant answers questions, qualifies leads, and books calls instantly — even at 2am when you're asleep.</p>
+      <div class="demo-visual">
+        <div class="demo-msg">
+          <div class="demo-avatar" style="background:rgba(24,95,165,0.3);color:var(--blue-light)">V</div>
+          <div class="demo-bubble">Hi, I run a salon in Dallas. Do you work with salons?</div>
+        </div>
+        <div class="demo-msg" style="flex-direction:row-reverse">
+          <div class="demo-avatar" style="background:rgba(29,158,117,0.3);color:var(--teal-light)">AI</div>
+          <div class="demo-bubble reply">Absolutely! We specialise in salons. Most of our salon clients see 30%+ more rebookings in the first 30 days. What's your biggest challenge right now — new clients or keeping existing ones?</div>
+        </div>
+        <div class="demo-msg">
+          <div class="demo-avatar" style="background:rgba(24,95,165,0.3);color:var(--blue-light)">V</div>
+          <div class="demo-bubble">Mostly getting new clients. We have empty slots every week.</div>
+        </div>
+        <div class="demo-msg" style="flex-direction:row-reverse">
+          <div class="demo-avatar" style="background:rgba(29,158,117,0.3);color:var(--teal-light)">AI</div>
+          <div class="demo-bubble reply">That's exactly what we fix. Aiman can show you the full system on a free 30-min call. Want me to book you in? 📅</div>
+        </div>
+        <div style="display:flex;gap:4px;padding:4px 0 4px 38px">
+          <div style="width:6px;height:6px;border-radius:50%;background:var(--gray);animation:bounce 1s infinite"></div>
+          <div style="width:6px;height:6px;border-radius:50%;background:var(--gray);animation:bounce 1s 0.15s infinite"></div>
+          <div style="width:6px;height:6px;border-radius:50%;background:var(--gray);animation:bounce 1s 0.3s infinite"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="demo-card">
+      <span class="demo-tag">LIVE DEMO — Follow-up Sequence</span>
+      <h3>5-touch follow-up system</h3>
+      <p>Never let a lead go cold. The system follows up automatically at the perfect times with the perfect message.</p>
+      <div class="demo-visual">
+        <div style="font-size:0.75rem">
+          <div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border)">
+            <span style="background:rgba(29,158,117,0.2);color:var(--teal-light);padding:2px 8px;border-radius:10px;font-size:0.7rem">Day 1</span>
+            <span style="color:var(--white)">Initial personalised email sent</span>
+            <span style="margin-left:auto;color:var(--teal)">✓ Sent</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border)">
+            <span style="background:rgba(29,158,117,0.2);color:var(--teal-light);padding:2px 8px;border-radius:10px;font-size:0.7rem">Day 3</span>
+            <span style="color:var(--white)">Value-add follow-up with case study</span>
+            <span style="margin-left:auto;color:var(--teal)">✓ Sent</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border)">
+            <span style="background:rgba(24,95,165,0.2);color:var(--blue-light);padding:2px 8px;border-radius:10px;font-size:0.7rem">Day 7</span>
+            <span style="color:var(--white)">LinkedIn DM sent</span>
+            <span style="margin-left:auto;color:var(--blue-light)">→ Queued</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border)">
+            <span style="background:rgba(136,146,164,0.15);color:var(--gray);padding:2px 8px;border-radius:10px;font-size:0.7rem">Day 10</span>
+            <span style="color:var(--gray)">Final value email + direct ask</span>
+            <span style="margin-left:auto;color:var(--gray)">Pending</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;padding:8px 0">
+            <span style="background:rgba(136,146,164,0.15);color:var(--gray);padding:2px 8px;border-radius:10px;font-size:0.7rem">Day 14</span>
+            <span style="color:var(--gray)">Breakup email (highest reply rate)</span>
+            <span style="margin-left:auto;color:var(--gray)">Pending</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="demo-card">
+      <span class="demo-tag">LIVE DEMO — Morning Report</span>
+      <h3>Daily operations briefing</h3>
+      <p>Every morning at 8am, this report lands in your inbox. You know exactly what's happening without touching anything.</p>
+      <div class="demo-visual">
+        <div style="font-size:0.75rem;color:var(--white)">
+          <div style="color:var(--blue-light);font-size:0.8rem;font-weight:600;margin-bottom:10px">📊 Axon AI Daily Report — Saturday, May 2</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px">
+            <div style="background:rgba(24,95,165,0.1);border:1px solid var(--border);border-radius:8px;padding:10px;text-align:center">
+              <div style="font-size:1.4rem;font-weight:700;color:var(--white)">47</div>
+              <div style="font-size:0.7rem;color:var(--gray)">Leads scraped</div>
+            </div>
+            <div style="background:rgba(24,95,165,0.1);border:1px solid var(--border);border-radius:8px;padding:10px;text-align:center">
+              <div style="font-size:1.4rem;font-weight:700;color:var(--white)">12</div>
+              <div style="font-size:0.7rem;color:var(--gray)">Emails sent</div>
+            </div>
+            <div style="background:rgba(29,158,117,0.1);border:1px solid rgba(29,158,117,0.2);border-radius:8px;padding:10px;text-align:center">
+              <div style="font-size:1.4rem;font-weight:700;color:var(--teal-light)">3</div>
+              <div style="font-size:0.7rem;color:var(--gray)">Replies received</div>
+            </div>
+            <div style="background:rgba(29,158,117,0.1);border:1px solid rgba(29,158,117,0.2);border-radius:8px;padding:10px;text-align:center">
+              <div style="font-size:1.4rem;font-weight:700;color:var(--teal-light)">1</div>
+              <div style="font-size:0.7rem;color:var(--gray)">Call booked ✓</div>
+            </div>
+          </div>
+          <div style="background:rgba(29,158,117,0.08);border:1px solid rgba(29,158,117,0.2);border-radius:6px;padding:8px;font-size:0.72rem;color:var(--teal-light)">
+            🎯 Priority today: Follow up with Dr. Patel — opened your email 3 times
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- RESULTS -->
+<section>
+  <div class="fade-in" style="display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:1.5rem;margin-bottom:3rem">
+    <div>
+      <div class="section-label">What to expect</div>
+      <h2 class="section-title">Results in your first 30 days</h2>
+    </div>
+    <a href="https://cal.com/axon-ai-fplbpl/discovery" target="_blank" class="btn-primary">Get these results →</a>
+  </div>
+  <div class="results-grid fade-in">
+    <div class="result-card">
+      <span class="result-num">500+</span>
+      <span class="result-label">Qualified leads in your pipeline by end of Week 1</span>
+    </div>
+    <div class="result-card">
+      <span class="result-num">8–12</span>
+      <span class="result-label">Discovery calls booked on your calendar in 30 days</span>
+    </div>
+    <div class="result-card">
+      <span class="result-num">4–5</span>
+      <span class="result-label">High-paying clients closed in your first month</span>
+    </div>
+    <div class="result-card">
+      <span class="result-num">0</span>
+      <span class="result-label">Hours spent on manual outreach, follow-ups or chasing leads</span>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section style="background:var(--card-bg)">
+  <div class="fade-in">
+    <div class="section-label">Our process</div>
+    <h2 class="section-title">How we work together</h2>
+    <p class="section-sub">From discovery call to fully automated system — here's exactly what happens.</p>
+  </div>
+  <div class="process-list fade-in">
+    <div class="process-item">
+      <div class="process-icon">📞</div>
+      <div>
+        <h3>1. Free discovery call (30 min)</h3>
+        <p>We learn your business, your goals, and your biggest bottlenecks. You get a clear picture of what we'd build — no obligation.</p>
+      </div>
+    </div>
+    <div class="process-item">
+      <div class="process-icon">🗺️</div>
+      <div>
+        <h3>2. Custom automation blueprint</h3>
+        <p>We design your exact system — which agents, which channels, which sequences — mapped to your specific niche and goals.</p>
+      </div>
+    </div>
+    <div class="process-item">
+      <div class="process-icon">⚙️</div>
+      <div>
+        <h3>3. We build everything (7–14 days)</h3>
+        <p>Your tech team builds the full system. Lead gen, outreach, follow-ups, CRM, booking integration — all custom, all tested.</p>
+      </div>
+    </div>
+    <div class="process-item">
+      <div class="process-icon">🚀</div>
+      <div>
+        <h3>4. Launch & you just show up</h3>
+        <p>We flip the switch. Leads start flowing. Calls start booking. You wake up to a daily ops report and a calendar full of prospects.</p>
+      </div>
+    </div>
+    <div class="process-item">
+      <div class="process-icon">📈</div>
+      <div>
+        <h3>5. Ongoing optimisation</h3>
+        <p>We monitor, tweak and improve every month. Reply rates, conversion data, and pipeline growth reported to you weekly.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="fade-in">
+    <div class="section-label" style="justify-content:center;display:flex">Ready to automate?</div>
+    <h2>Stop chasing clients.<br>Let AI bring them to you.</h2>
+    <p>Book a free 30-minute discovery call. We'll show you exactly what your automated system would look like — no pitch, just a plan.</p>
+    <a href="https://cal.com/axon-ai-fplbpl/discovery" target="_blank" class="btn-primary" style="font-size:1rem;padding:1rem 2.5rem">
+      Book your free call — it takes 30 seconds →
+    </a>
+    <p class="cta-note">Free call · No commitment · Results in 30 days or we work for free</p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">AXON AI</div>
+  <div class="footer-right">
+    Built by Aiman Khalid &nbsp;·&nbsp;
+    <a href="mailto:axon.ai384@gmail.com">axon.ai384@gmail.com</a> &nbsp;·&nbsp;
+    <a href="https://cal.com/axon-ai-fplbpl/discovery" target="_blank">Book a call</a>
+  </div>
+</footer>
+
+<script>
+// Scroll animations
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.1 });
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
